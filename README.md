@@ -42,5 +42,5 @@ String transactionHash = web3j.ethSendRawTransaction(hexValue).sendAsync().get()
 
 #### 合约交互
 
-[合约交互说明](./NestV3EatOffer/README.md)
+[合约交互说明](./NTokenNestV3EatOffer/README.md)
 
