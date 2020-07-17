@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nest.ib.dao.mapper.OfferThreeDataMapper" >
+  <resultMap id="BaseResultMap" type="com.nest.ib.model.OfferThreeData" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="contract_address" property="contractAddress" jdbcType="VARCHAR" />
+    <result column="left_token_name" property="leftTokenName" jdbcType="VARCHAR" />
+    <result column="left_token_address" property="leftTokenAddress" jdbcType="VARCHAR" />
+    <result column="left_token_amount" property="leftTokenAmount" jdbcType="DECIMAL" />
+    <result column="right_token_name" property="rightTokenName" jdbcType="VARCHAR" />
+    <result column="right_token_address" property="rightTokenAddress" jdbcType="VARCHAR" />
+    <result column="right_token_amount" property="rightTokenAmount" jdbcType="DECIMAL" />
+    <result column="price_ratio" property="priceRatio" jdbcType="DECIMAL" />
+    <result column="transaction_hash" property="transactionHash" jdbcType="VARCHAR" />
+    <result column="originator_wallet_address" property="originatorWalletAddress" jdbcType="VARCHAR" />
+    <result column="block_number" property="blockNumber" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="left_token_balance" property="leftTokenBalance" jdbcType="DECIMAL" />
+    <result column="right_token_balance" property="rightTokenBalance" jdbcType="DECIMAL" />
+    <result column="version" property="version" jdbcType="INTEGER" />
+    <result column="is_eat_offer" property="isEatOffer" jdbcType="INTEGER" />
+    <result column="eat_offer_id" property="eatOfferId" jdbcType="INTEGER" />
+    <result column="interval_block" property="intervalBlock" jdbcType="INTEGER" />
+    <result column="service_charge" property="serviceCharge" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, contract_address, left_token_name, left_token_address, left_token_amount, right_token_name, 
+    right_token_address, right_token_amount, price_ratio, transaction_hash, originator_wallet_address, 
+    block_number, create_time, left_token_balance, right_token_balance, version, is_eat_offer, 
+    eat_offer_id, interval_block, service_charge
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from offer_three_data
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectOverBlockNumberAddIntervalBlock" resultMap="BaseResultMap">
+    select * from offer_three_data where (block_number + interval_block) > #{blockNumber} and right_token_name=#{name} order by block_number desc limit 0,10
+  </select>
+  <select id="selectBelowBlockNumberAddIntervalBlockByWalletAddress" resultMap="BaseResultMap">
+    select * from offer_three_data where (block_number + interval_block) &lt;= #{blockNumber} and originator_wallet_address=#{walletAddress} and  right_token_name=#{name} order by block_number desc limit 0,10
+  </select>
+  <select id="selectByTransactionHash" resultMap="BaseResultMap">
+    select * from offer_three_data where transaction_hash=#{transactionHash}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from offer_three_data
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nest.ib.model.OfferThreeData" >
+    insert into offer_three_data (id, contract_address, left_token_name, 
+      left_token_address, left_token_amount, right_token_name, 
+      right_token_address, right_token_amount, price_ratio, 
+      transaction_hash, originator_wallet_address, 
+      block_number, create_time, left_token_balance, 
+      right_token_balance, version, is_eat_offer, 
+      eat_offer_id, interval_block, service_charge
+      )
+    values (#{id,jdbcType=INTEGER}, #{contractAddress,jdbcType=VARCHAR}, #{leftTokenName,jdbcType=VARCHAR}, 
+      #{leftTokenAddress,jdbcType=VARCHAR}, #{leftTokenAmount,jdbcType=DECIMAL}, #{rightTokenName,jdbcType=VARCHAR}, 
+      #{rightTokenAddress,jdbcType=VARCHAR}, #{rightTokenAmount,jdbcType=DECIMAL}, #{priceRatio,jdbcType=DECIMAL}, 
+      #{transactionHash,jdbcType=VARCHAR}, #{originatorWalletAddress,jdbcType=VARCHAR}, 
+      #{blockNumber,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{leftTokenBalance,jdbcType=DECIMAL}, 
+      #{rightTokenBalance,jdbcType=DECIMAL}, #{version,jdbcType=INTEGER}, #{isEatOffer,jdbcType=INTEGER}, 
+      #{eatOfferId,jdbcType=INTEGER}, #{intervalBlock,jdbcType=INTEGER}, #{serviceCharge,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nest.ib.model.OfferThreeData" >
+    insert into offer_three_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="contractAddress != null" >
+        contract_address,
+      </if>
+      <if test="leftTokenName != null" >
+        left_token_name,
+      </if>
+      <if test="leftTokenAddress != null" >
+        left_token_address,
+      </if>
+      <if test="leftTokenAmount != null" >
+        left_token_amount,
+      </if>
+      <if test="rightTokenName != null" >
+        right_token_name,
+      </if>
+      <if test="rightTokenAddress != null" >
+        right_token_address,
+      </if>
+      <if test="rightTokenAmount != null" >
+        right_token_amount,
+      </if>
+      <if test="priceRatio != null" >
+        price_ratio,
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash,
+      </if>
+      <if test="originatorWalletAddress != null" >
+        originator_wallet_address,
+      </if>
+      <if test="blockNumber != null" >
+        block_number,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="leftTokenBalance != null" >
+        left_token_balance,
+      </if>
+      <if test="rightTokenBalance != null" >
+        right_token_balance,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="isEatOffer != null" >
+        is_eat_offer,
+      </if>
+      <if test="eatOfferId != null" >
+        eat_offer_id,
+      </if>
+      <if test="intervalBlock != null" >
+        interval_block,
+      </if>
+      <if test="serviceCharge != null" >
+        service_charge,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="contractAddress != null" >
+        #{contractAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenName != null" >
+        #{leftTokenName,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenAddress != null" >
+        #{leftTokenAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenAmount != null" >
+        #{leftTokenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="rightTokenName != null" >
+        #{rightTokenName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightTokenAddress != null" >
+        #{rightTokenAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="rightTokenAmount != null" >
+        #{rightTokenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="priceRatio != null" >
+        #{priceRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionHash != null" >
+        #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="originatorWalletAddress != null" >
+        #{originatorWalletAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNumber != null" >
+        #{blockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenBalance != null" >
+        #{leftTokenBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="rightTokenBalance != null" >
+        #{rightTokenBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isEatOffer != null" >
+        #{isEatOffer,jdbcType=INTEGER},
+      </if>
+      <if test="eatOfferId != null" >
+        #{eatOfferId,jdbcType=INTEGER},
+      </if>
+      <if test="intervalBlock != null" >
+        #{intervalBlock,jdbcType=INTEGER},
+      </if>
+      <if test="serviceCharge != null" >
+        #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nest.ib.model.OfferThreeData" >
+    update offer_three_data
+    <set >
+      <if test="contractAddress != null" >
+        contract_address = #{contractAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenName != null" >
+        left_token_name = #{leftTokenName,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenAddress != null" >
+        left_token_address = #{leftTokenAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenAmount != null" >
+        left_token_amount = #{leftTokenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="rightTokenName != null" >
+        right_token_name = #{rightTokenName,jdbcType=VARCHAR},
+      </if>
+      <if test="rightTokenAddress != null" >
+        right_token_address = #{rightTokenAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="rightTokenAmount != null" >
+        right_token_amount = #{rightTokenAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="priceRatio != null" >
+        price_ratio = #{priceRatio,jdbcType=DECIMAL},
+      </if>
+      <if test="transactionHash != null" >
+        transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      </if>
+      <if test="originatorWalletAddress != null" >
+        originator_wallet_address = #{originatorWalletAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="blockNumber != null" >
+        block_number = #{blockNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="leftTokenBalance != null" >
+        left_token_balance = #{leftTokenBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="rightTokenBalance != null" >
+        right_token_balance = #{rightTokenBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isEatOffer != null" >
+        is_eat_offer = #{isEatOffer,jdbcType=INTEGER},
+      </if>
+      <if test="eatOfferId != null" >
+        eat_offer_id = #{eatOfferId,jdbcType=INTEGER},
+      </if>
+      <if test="intervalBlock != null" >
+        interval_block = #{intervalBlock,jdbcType=INTEGER},
+      </if>
+      <if test="serviceCharge != null" >
+        service_charge = #{serviceCharge,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nest.ib.model.OfferThreeData" >
+    update offer_three_data
+    set contract_address = #{contractAddress,jdbcType=VARCHAR},
+      left_token_name = #{leftTokenName,jdbcType=VARCHAR},
+      left_token_address = #{leftTokenAddress,jdbcType=VARCHAR},
+      left_token_amount = #{leftTokenAmount,jdbcType=DECIMAL},
+      right_token_name = #{rightTokenName,jdbcType=VARCHAR},
+      right_token_address = #{rightTokenAddress,jdbcType=VARCHAR},
+      right_token_amount = #{rightTokenAmount,jdbcType=DECIMAL},
+      price_ratio = #{priceRatio,jdbcType=DECIMAL},
+      transaction_hash = #{transactionHash,jdbcType=VARCHAR},
+      originator_wallet_address = #{originatorWalletAddress,jdbcType=VARCHAR},
+      block_number = #{blockNumber,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      left_token_balance = #{leftTokenBalance,jdbcType=DECIMAL},
+      right_token_balance = #{rightTokenBalance,jdbcType=DECIMAL},
+      version = #{version,jdbcType=INTEGER},
+      is_eat_offer = #{isEatOffer,jdbcType=INTEGER},
+      eat_offer_id = #{eatOfferId,jdbcType=INTEGER},
+      interval_block = #{intervalBlock,jdbcType=INTEGER},
+      service_charge = #{serviceCharge,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
